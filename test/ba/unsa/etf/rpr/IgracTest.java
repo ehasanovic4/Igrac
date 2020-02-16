@@ -15,7 +15,6 @@ class IgracTest {
                 () -> assertEquals(5, ((Heroj)igrac).getOdbrambeniPoeni()),
                 () -> assertEquals(100, igrac.getZivotniPoeni())
         );
-
     }
 
     @Test

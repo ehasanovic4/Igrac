@@ -23,6 +23,7 @@ public abstract class Igrac implements Comparable<Igrac>{
     public abstract void primiNapad(Napad napad);
     public abstract void napadni(String nazivNapada, Igrac meta, double koeficijent) throws IlegalanNapad;
     public abstract void primiNapad(Napad napad, double koeficijent);
+    protected abstract boolean izIstogTima(Igrac meta);
 
     public void provjeriNapad(String nazivNapada, Igrac meta) throws IlegalanNapad {
         if(dajNapadIzNaziva(nazivNapada) == null){
@@ -37,8 +38,6 @@ public abstract class Igrac implements Comparable<Igrac>{
             throw new IlegalanNapad("Nije moguće izvršiti napad na prijatelja");
         }
     }
-
-    protected abstract boolean izIstogTima(Igrac meta);
 
     protected Napad dajNapadIzNaziva(String nazivNapada){
         List<Napad> pronadjeno = napadi.stream().filter(napad -> napad.getNazivNapada().equals(nazivNapada))
@@ -66,28 +65,6 @@ public abstract class Igrac implements Comparable<Igrac>{
     public  String toString(){
         return nadimak + " (preostalo " + getZivotniPoeni() + " životnih poena)";
     }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Igrac igrac = (Igrac) o;
-//
-//        if (Double.compare(igrac.zivotniPoeni, zivotniPoeni) != 0) return false;
-//        return nadimak != null ? nadimak.equals(igrac.nadimak) : igrac.nadimak == null;
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        int result;
-//        long temp;
-//        result = nadimak != null ? nadimak.hashCode() : 0;
-//        temp = Double.doubleToLongBits(zivotniPoeni);
-//        result = 31 * result + (int) (temp ^ (temp >>> 32));
-//        return result;
-//    }
-
 
     @Override
     public boolean equals(Object o) {
