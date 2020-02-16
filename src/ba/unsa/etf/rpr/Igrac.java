@@ -59,7 +59,6 @@ public abstract class Igrac implements Comparable<Igrac>{
             return getNadimak().compareTo(igrac.getNadimak());
             //TODO provjeriti poredak
         }
-
         return Double.compare(getZivotniPoeni(), igrac.getZivotniPoeni());
     }
 
@@ -67,6 +66,28 @@ public abstract class Igrac implements Comparable<Igrac>{
     public  String toString(){
         return nadimak + " (preostalo " + getZivotniPoeni() + " životnih poena)";
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Igrac igrac = (Igrac) o;
+//
+//        if (Double.compare(igrac.zivotniPoeni, zivotniPoeni) != 0) return false;
+//        return nadimak != null ? nadimak.equals(igrac.nadimak) : igrac.nadimak == null;
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        int result;
+//        long temp;
+//        result = nadimak != null ? nadimak.hashCode() : 0;
+//        temp = Double.doubleToLongBits(zivotniPoeni);
+//        result = 31 * result + (int) (temp ^ (temp >>> 32));
+//        return result;
+//    }
+
 
     @Override
     public boolean equals(Object o) {

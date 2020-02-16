@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 public class Igra {
     private List<Igrac> igraci = new ArrayList<>();
 
+    public List<Igrac> getIgraci() {
+        return igraci;
+    }
+
     public void registrujIgraca(Igrac igrac){
         if (igraci.contains(igrac)){
             throw new IllegalArgumentException("Već je u igri igrač sa ovim nadimkom");
@@ -16,6 +20,9 @@ public class Igra {
     }
 
     public void registrujNapadZaIgraca(Napad napad, Igrac igrac){
+        if(!igraci.contains(igrac)){
+            registrujIgraca(igrac);
+        }
         igrac.registrujNapad(napad);
     }
 
@@ -50,12 +57,13 @@ public class Igra {
         //vidjeti sta se desi kad ima vise sa istim poenima
         Optional<Igrac> pobjednik = igraci.stream().max(Igrac::compareTo);
         return new TreeSet<>(igraci.stream().
-                filter(igrac -> igrac.equals(pobjednik.get())).collect(Collectors.toList()));
+                filter(igrac -> igrac.getZivotniPoeni() == pobjednik.get().getZivotniPoeni()).collect(Collectors.toList()));
     }
 
     public void izvrsiNapad(Igrac napadac, Igrac meta, Napad napad) throws IlegalanNapad {
+        //TODO TEST PROMIJENITI IGRAČ U AKTER
         if(napadac.getZivotniPoeni() == 0){
-            throw new IlegalanNapad("Nije moguce napasti sa akterom koji nema preostalih životnih poena");
+            throw new IlegalanNapad("Nije moguce napasti sa igračem koji nema preostalih životnih poena");
         }
 
         double koeficijent = 1;
@@ -68,7 +76,7 @@ public class Igra {
 
     public void izvrsiSerijuNapada(Igrac napadac, HashMap<Igrac, Napad> meteNapadi) throws IlegalanNapad {
         if(napadac.getZivotniPoeni() == 0){
-            throw new IlegalanNapad("Nije moguce napasti sa akterom koji nema preostalih životnih poena");
+            throw new IlegalanNapad("Nije moguce napasti sa igračem koji nema preostalih životnih poena");
         }
 
         for (Map.Entry<Igrac, Napad> e : meteNapadi.entrySet()){
@@ -94,23 +102,26 @@ public class Igra {
         return true;
     }
 
-    public void prikaziStanje(){
+    public String prikaziStanje(){
         //za ovo treba toString
+        StringBuilder rezultat = new StringBuilder();
         List<Heroj> heroji = dajHeroje().stream().sorted(Igrac::compareTo).collect(Collectors.toList());
         List<Neprijatelj> neprijatelji = dajNeprijatelje().stream().sorted(Igrac::compareTo).collect(Collectors.toList());
-        System.out.println("Heroji koji su u igri:");
+        rezultat.append("Heroji koji su u igri:\n");
         for (int i = 0; i < heroji.size(); i++){
-            System.out.print(heroji.get(i));
-            if(i != heroji.size() - 1) System.out.println(",");
-            else System.out.println(".\n");
+            rezultat.append(heroji.get(i));
+            if(i != heroji.size() - 1) rezultat.append(",\n");
+            else rezultat.append(".\n");
         }
 
-        System.out.println("Neprijatelji koji su u igri:");
+        rezultat.append("Neprijatelji koji su u igri:\n");
         for (int i = 0; i < neprijatelji.size(); i++){
-            System.out.print(neprijatelji.get(i));
-            if(i != neprijatelji.size() - 1) System.out.println(",");
-            else System.out.println(".\n");
+            rezultat.append(neprijatelji.get(i));
+            if(i != neprijatelji.size() - 1) rezultat.append(",\n");
+            else rezultat.append(".\n");
         }
+
+        return rezultat.toString();
     }
 
     public int statusIgre(){
