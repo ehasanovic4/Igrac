@@ -75,7 +75,7 @@ public class Igra {
 
     public void izvrsiSerijuNapada(Igrac napadac, HashMap<Igrac, Napad> meteNapadi) throws IlegalanNapad {
         if(napadac.getZivotniPoeni() == 0){
-            throw new IlegalanNapad("Nije moguce napasti sa igračem koji nema preostalih životnih poena");
+            throw new IlegalanNapad("Nije moguće napasti sa igračem koji nema preostalih životnih poena");
         }
 
         for (Map.Entry<Igrac, Napad> e : meteNapadi.entrySet()){

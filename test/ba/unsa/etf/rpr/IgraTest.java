@@ -56,9 +56,11 @@ class IgraTest {
 
     @Test
     void registrujIgracaIzuzetakTest() {
-        assertThrows(IllegalArgumentException.class,
-                () -> igra.registrujIgraca(new Heroj("superman", 8)),
-                "Već je u igri igrač sa ovim nadimkom");
+        try{
+            igra.registrujIgraca(new Heroj("superman", 8));
+        }catch (IllegalArgumentException e){
+            assertEquals("Već je u igri igrač sa ovim nadimkom", e.getMessage());
+        }
     }
 
     @Test
@@ -66,7 +68,6 @@ class IgraTest {
         Napad napad = new Napad("fizicki napad", 4.5);
         Igrac igrac = igra.getIgraci().get(1);
         igra.registrujNapadZaIgraca(napad, igrac);
-
 
         assertAll(
                 () -> assertTrue(igrac.getNapadi().contains(napad)),
@@ -230,10 +231,11 @@ class IgraTest {
 
         igra.registrujNapadZaIgraca(napad, napadac);
         napadac.setZivotniPoeni(0);
-        assertThrows(IlegalanNapad.class,
-                () -> igra.izvrsiNapad(napadac, meta, napad),
-                "Nije moguće napasti sa igračem koji nema preostalih životnih poena"
-        );
+        try{
+            igra.izvrsiNapad(napadac, meta, napad);
+        }catch (IlegalanNapad e){
+            assertEquals("Nije moguće napasti sa igračem koji nema preostalih životnih poena", e.getMessage());
+        }
     }
 
     @Test
@@ -245,10 +247,11 @@ class IgraTest {
 
         igra.registrujNapadZaIgraca(napad, napadac);
         meta.setZivotniPoeni(0);
-        assertThrows(IlegalanNapad.class,
-                () -> igra.izvrsiNapad(napadac, meta, napad),
-                "Ovaj igrač je već završio igru"
-        );
+        try{
+            igra.izvrsiNapad(napadac, meta, napad);
+        }catch (IlegalanNapad e){
+            assertEquals("Ovaj igrač je već završio igru", e.getMessage());
+        }
     }
 
     @Test
@@ -257,10 +260,11 @@ class IgraTest {
         Igrac meta = igra.getIgraci().get(0);
         Igrac napadac = igra.getIgraci().get(3);
 
-        assertThrows(IlegalanNapad.class,
-                () -> igra.izvrsiNapad(napadac, meta, napad),
-                "superman ne može izvršiti napad obični napad"
-        );
+        try{
+            igra.izvrsiNapad(napadac, meta, napad);
+        }catch (IlegalanNapad e){
+            assertEquals("joker ne može izvršiti napad obicni napad", e.getMessage());
+        }
     }
 
     @Test
@@ -271,10 +275,11 @@ class IgraTest {
 
         igra.registrujNapadZaIgraca(napad, napadac);
 
-        assertThrows(IlegalanNapad.class,
-                () -> igra.izvrsiNapad(napadac, meta, napad),
-                "Nije moguće izvršiti napad na prijatelja"
-        );
+        try{
+            igra.izvrsiNapad(napadac, meta, napad);
+        }catch (IlegalanNapad e){
+            assertEquals("Nije moguće izvršiti napad na prijatelja", e.getMessage());
+        }
     }
 
     @Test
@@ -312,15 +317,16 @@ class IgraTest {
         metaNapad.put(igraci.get(3), napad);
         metaNapad.put(igraci.get(4), napad);
         metaNapad.put(igraci.get(1), napad);
-
-        assertAll(
-                () ->assertThrows(IlegalanNapad.class,
-                        () -> igra.izvrsiSerijuNapada(napadac, metaNapad),
-                        "Nije moguće napasti prijatelja"
-                ),
-                () -> assertEquals(100, igraci.get(3).getZivotniPoeni()),
-                () -> assertEquals(100, igraci.get(4).getZivotniPoeni())
-        );
+        napadac.registrujNapad(napad);
+        try{
+            igra.izvrsiSerijuNapada(napadac, metaNapad);
+        }catch (IlegalanNapad e){
+            assertAll(
+                    () -> assertEquals("Nije moguće izvršiti napad na prijatelja", e.getMessage()),
+                    () -> assertEquals(100, igraci.get(3).getZivotniPoeni()),
+                    () -> assertEquals(100, igraci.get(4).getZivotniPoeni())
+            );
+        }
     }
 
     @Test
@@ -333,14 +339,15 @@ class IgraTest {
         metaNapad.put(igraci.get(3), napad);
         metaNapad.put(igraci.get(4), napad);
 
-        assertAll(
-                () ->assertThrows(IlegalanNapad.class,
-                        () -> igra.izvrsiSerijuNapada(napadac, metaNapad),
-                        "Nije moguće napasti sa igračom koji nema preostalih životnih poena"
-                ),
-                () -> assertEquals(100, igraci.get(3).getZivotniPoeni()),
-                () -> assertEquals(100, igraci.get(4).getZivotniPoeni())
-        );
+        try{
+            igra.izvrsiSerijuNapada(napadac, metaNapad);
+        }catch (IlegalanNapad e){
+            assertAll(
+                    () -> assertEquals("Nije moguće napasti sa igračem koji nema preostalih životnih poena", e.getMessage()),
+                    () -> assertEquals(100, igraci.get(3).getZivotniPoeni()),
+                    () -> assertEquals(100, igraci.get(4).getZivotniPoeni())
+            );
+        }
     }
 
     @Test
