@@ -2,11 +2,15 @@ package ba.unsa.etf.rpr;
 
 public class Neprijatelj extends Igrac {
 
+    public Neprijatelj(String nadimak) {
+        super(nadimak);
+    }
+
     @Override
     public void napadni(String nazivNapada, Igrac meta, double koeficijent) throws IlegalanNapad {
         provjeriNapad(nazivNapada, meta);
         Napad napad = dajNapadIzNaziva(nazivNapada);
-        meta.primiNapad(napad);
+        meta.primiNapad(napad, koeficijent);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class Heroj extends Igrac{
     public void napadni(String nazivNapada, Igrac meta, double koeficijent) throws IlegalanNapad {
         provjeriNapad(nazivNapada, meta);
         Napad napad = dajNapadIzNaziva(nazivNapada);
-        meta.primiNapad(napad);
+        meta.primiNapad(napad, koeficijent);
     }
 
     @Override

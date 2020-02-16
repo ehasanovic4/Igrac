@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 public abstract class Igrac implements Comparable<Igrac>{
     private String nadimak;
     private double zivotniPoeni;
+
     private List<Napad> napadi = new ArrayList<>();
 
     public Igrac(String nadimak) {
