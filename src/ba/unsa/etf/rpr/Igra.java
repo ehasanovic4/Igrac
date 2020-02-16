@@ -61,9 +61,8 @@ public class Igra {
     }
 
     public void izvrsiNapad(Igrac napadac, Igrac meta, Napad napad) throws IlegalanNapad {
-        //TODO TEST PROMIJENITI IGRAČ U AKTER
         if(napadac.getZivotniPoeni() == 0){
-            throw new IlegalanNapad("Nije moguce napasti sa igračem koji nema preostalih životnih poena");
+            throw new IlegalanNapad("Nije moguće napasti sa igračem koji nema preostalih životnih poena");
         }
 
         double koeficijent = 1;

@@ -58,9 +58,11 @@ class IgracTest {
         Napad napad = new Napad("magicni napad", 15);
         igrac.registrujNapad(napad);
         napad.setDjelovanje(20);
-        assertThrows(IllegalArgumentException.class,
-                () -> igrac.registrujNapad(napad),
-                "Napad sa ovim nazivom je već registrovan");
+        try{
+            igrac.registrujNapad(napad);
+        }catch (IllegalArgumentException e){
+            assertEquals("Napad sa ovim nazivom je već registrovan", e.getMessage());
+        }
     }
 
     @Test
@@ -128,9 +130,11 @@ class IgracTest {
         Igrac meta = new Neprijatelj("neprijatelj");
         Igrac napadac = new Heroj("heroj", 3);
 
-        assertThrows(IlegalanNapad.class,
-                ()->napadac.napadni("magicni napad", meta),
-                "Heroj ne može izvršiti napad magični napad");
+        try{
+            napadac.napadni("magični napad", meta);
+        }catch (IlegalanNapad e){
+            assertEquals("heroj ne može izvršiti napad magični napad", e.getMessage());
+        }
     }
 
     @Test
@@ -138,20 +142,25 @@ class IgracTest {
         Igrac meta = new Neprijatelj("neprijatelj");
         Igrac napadac = new Heroj("heroj", 3);
 
+        napadac.registrujNapad(new Napad("magični napad", 5));
         meta.setZivotniPoeni(0);
-        assertThrows(IlegalanNapad.class,
-                ()->napadac.napadni("magicni napad", meta),
-                "Ovaj igrač je završio borbu");
+        try{
+            napadac.napadni("magični napad", meta);
+        }catch (IlegalanNapad e){
+            assertEquals("Ovaj igrač je već završio igru", e.getMessage());
+        }
     }
 
     @Test
     void napadniIzuzetakTest3(){
         Igrac meta = new Neprijatelj("neprijatelj1");
         Igrac napadac = new Neprijatelj("neprijatelj2");
-
-        assertThrows(IlegalanNapad.class,
-                ()->napadac.napadni("magicni napad", meta),
-                "Nije moguće izvršiti napad na prijatelja");
+        napadac.registrujNapad(new Napad("magični napad", 5));
+        try{
+            napadac.napadni("magični napad", meta);
+        }catch (IlegalanNapad e){
+            assertEquals("Nije moguće izvršiti napad na prijatelja", e.getMessage());
+        }
     }
 
     @Test
@@ -159,9 +168,12 @@ class IgracTest {
         Igrac meta = new Heroj("heroj1",7);
         Igrac napadac = new Heroj("heroj2",3);
 
-        assertThrows(IlegalanNapad.class,
-                ()->napadac.napadni("magicni napad", meta),
-                "Nije moguće izvršiti napad na prijatelja");
+        napadac.registrujNapad(new Napad("magični napad", 5));
+        try{
+            napadac.napadni("magični napad", meta);
+        }catch (IlegalanNapad e){
+            assertEquals("Nije moguće izvršiti napad na prijatelja", e.getMessage());
+        }
     }
 
     @Test
@@ -170,9 +182,12 @@ class IgracTest {
         Igrac meta = new Heroj("heroj", 3);
 
         meta.setZivotniPoeni(0);
-        assertThrows(IlegalanNapad.class,
-                ()->napadac.napadni("magicni napad", meta),
-                "Ovaj igrač je završio borbu");
+        napadac.registrujNapad(new Napad("magični napad", 5));
+        try{
+            napadac.napadni("magični napad", meta);
+        }catch (IlegalanNapad e){
+            assertEquals("Ovaj igrač je već završio igru", e.getMessage());
+        }
     }
 
     @Test

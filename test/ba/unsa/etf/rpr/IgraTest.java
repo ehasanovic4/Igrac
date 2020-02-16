@@ -232,7 +232,7 @@ class IgraTest {
         napadac.setZivotniPoeni(0);
         assertThrows(IlegalanNapad.class,
                 () -> igra.izvrsiNapad(napadac, meta, napad),
-                "Nije moguce napasti sa igračem koji nema preostalih životnih poena"
+                "Nije moguće napasti sa igračem koji nema preostalih životnih poena"
         );
     }
 
@@ -255,7 +255,7 @@ class IgraTest {
     void izvrsiNapadIzuzetakTest3() {
         Napad napad = new Napad("obicni napad", 20);
         Igrac meta = igra.getIgraci().get(0);
-        Igrac napadac = igra.getIgraci().get(1);
+        Igrac napadac = igra.getIgraci().get(3);
 
         assertThrows(IlegalanNapad.class,
                 () -> igra.izvrsiNapad(napadac, meta, napad),
@@ -264,7 +264,7 @@ class IgraTest {
     }
 
     @Test
-    void izvrsiNapadIzuzetakTest4() throws IlegalanNapad {
+    void izvrsiNapadIzuzetakTest4()  {
         Napad napad = new Napad("obicni napad", 20);
         Igrac meta = igra.getIgraci().get(0);
         Igrac napadac = igra.getIgraci().get(1);
@@ -336,7 +336,7 @@ class IgraTest {
         assertAll(
                 () ->assertThrows(IlegalanNapad.class,
                         () -> igra.izvrsiSerijuNapada(napadac, metaNapad),
-                        "Nije moguce napasti sa akterom koji nema preostalih životnih poena"
+                        "Nije moguće napasti sa igračom koji nema preostalih životnih poena"
                 ),
                 () -> assertEquals(100, igraci.get(3).getZivotniPoeni()),
                 () -> assertEquals(100, igraci.get(4).getZivotniPoeni())
