@@ -7,33 +7,39 @@ public class Neprijatelj extends Igrac {
     }
 
     @Override
-    public void napadni(String nazivNapada, Igrac meta, double koeficijent) throws IlegalanNapad {
-        provjeriNapad(nazivNapada, meta);
-        Napad napad = dajNapadIzNaziva(nazivNapada);
-        meta.primiNapad(napad, koeficijent);
+    public void primiNapad(Napad napad) {
+        this.setZivotniPoeni(getZivotniPoeni()-napad.getDjelovanje());
+        if(getZivotniPoeni()<0) setZivotniPoeni(0);
+    }
+
+    @Override
+    public void napadni(String nazivNapada, Igrac igracKogTrebaNapasti) throws IlegalanNapad {
+        napadni(nazivNapada, igracKogTrebaNapasti, 1);
     }
 
     @Override
     public void primiNapad(Napad napad, double koeficijent) {
-        setZivotniPoeni(getZivotniPoeni() - napad.getDjelovanje() * koeficijent);
+        this.setZivotniPoeni(getZivotniPoeni()-napad.getDjelovanje()*koeficijent);
+        if(getZivotniPoeni()<0) setZivotniPoeni(0);
+    }
 
-        if(getZivotniPoeni() < 0){
-            setZivotniPoeni(0);
+    @Override
+    public void napadni(String nazivNapada, Igrac igracKogTrebaNapasti, double koeficijent) throws IlegalanNapad {
+        boolean postoji=false;
+        for(Napad n : getNapadi()){
+            if(n.getNazivNapada().equals(nazivNapada)) postoji=true;
         }
+        if(!postoji) throw new IlegalanNapad(getNadimak()+" ne može izvršiti napad "+nazivNapada);
+        if(igracKogTrebaNapasti.getZivotniPoeni()==0) throw new IlegalanNapad("Ovaj igrač je već završio igru");
+        if(igracKogTrebaNapasti instanceof Neprijatelj) throw new IlegalanNapad("Nije moguće izvršiti napad na prijatelja");
+        Napad napad = dajNapadIzNaziva(nazivNapada);
+        igracKogTrebaNapasti.primiNapad(napad,koeficijent);
     }
 
-    @Override
-    public void napadni(String nazivNapada, Igrac meta) throws IlegalanNapad {
-        napadni(nazivNapada, meta, 1);
-    }
-
-    @Override
-    public void primiNapad(Napad napad) {
-        primiNapad(napad, 1);
-    }
-
-    @Override
-    protected boolean izIstogTima(Igrac meta) {
-        return meta instanceof Neprijatelj;
+    private Napad dajNapadIzNaziva(String nazivNapada) {
+        for(Napad n : getNapadi()){
+            if(n.getNazivNapada().equals(nazivNapada)) return n;
+        }
+        return null;
     }
 }

@@ -9,9 +9,6 @@ public class Napad {
         this.djelovanje = djelovanje;
     }
 
-    public Napad() {
-    }
-
     public String getNazivNapada() {
         return nazivNapada;
     }
@@ -26,20 +23,5 @@ public class Napad {
 
     public void setDjelovanje(double djelovanje) {
         this.djelovanje = djelovanje;
-    }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//
-//        Napad napad = (Napad) o;
-//
-//        return nazivNapada != null ? nazivNapada.equals(napad.nazivNapada) : napad.nazivNapada == null;
-//    }
-
-    @Override
-    public int hashCode() {
-        return nazivNapada != null ? nazivNapada.hashCode() : 0;
     }
 }
